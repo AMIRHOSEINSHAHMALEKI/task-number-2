@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-23T19:00:00.000Z" agent="ChatGPT" version="25.0.3" type="device">
+  <diagram id="uml-page-1" name="01 Use Case">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="actor" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="170" width="50" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="use1" value="Sign Up" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="90" width="130" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="use2" value="Log In" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="170" width="130" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="use3" value="Validate Input" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="130" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="use4" value="Store / Retrieve User" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="230" width="160" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="db" value="SQL Server" style="shape=cylinder;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="220" width="130" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="note" value="Assumption: passwords are stored as salted hashes, never as plain text." style="shape=note;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="320" width="390" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="actor" target="use1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="actor" target="use2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="use1" target="use3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="use2" target="use3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="use3" target="use4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="use4" target="db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="uml-page-2" name="02 Class">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="user" value="UserAccount\n----------------\n+ userId: int\n+ username: string\n+ email: string\n+ passwordHash: string\n+ createdAt: datetime\n----------------\n+ register()\n+ verifyPassword()" style="swimlane;html=1;startSize=28;" vertex="1" parent="1">
+          <mxGeometry x="70" y="100" width="220" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth" value="AuthService\n----------------\n+ signUp()\n+ logIn()\n+ validateInput()\n+ hashPassword()" style="swimlane;html=1;startSize=28;" vertex="1" parent="1">
+          <mxGeometry x="370" y="100" width="200" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="repo" value="UserRepository\n----------------\n+ createUser()\n+ findByUsername()\n+ findByEmail()" style="swimlane;html=1;startSize=28;" vertex="1" parent="1">
+          <mxGeometry x="650" y="100" width="210" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="db" value="SQL Server\n----------------\nUsers table\n- UserId (PK)\n- Username (unique)\n- Email (unique)\n- PasswordHash\n- CreatedAt" style="shape=cylinder;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="310" width="210" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="auth" target="user">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="auth" target="repo">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="repo" target="db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="uml-page-3" name="03 Sequence - Sign Up">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="u" value="User" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="70" width="100" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ui" value="Sign Up UI" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="70" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="svc" value="Auth Service" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="70" width="130" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="repo" value="User Repository" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="70" width="140" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="db" value="SQL Server" style="shape=cylinder;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="850" y="70" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="l1" value=" " style="line;dashed=1;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="120" width="1" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="l2" value=" " style="line;dashed=1;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="120" width="1" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="l3" value=" " style="line;dashed=1;html=1;" vertex="1" parent="1">
+          <mxGeometry x="505" y="120" width="1" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="l4" value=" " style="line;dashed=1;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="120" width="1" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="l5" value=" " style="line;dashed=1;html=1;" vertex="1" parent="1">
+          <mxGeometry x="910" y="120" width="1" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="m1" value="1. Submit sign-up details" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="145" width="190" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="m2" value="2. Validate fields" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="195" width="160" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="m3" value="3. Hash password" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="245" width="160" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="m4" value="4. Insert user" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="525" y="295" width="170" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="m5" value="5. Return success / error" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="345" width="230" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="a1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;" edge="1" parent="1" source="u" target="ui">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;" edge="1" parent="1" source="ui" target="svc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;" edge="1" parent="1" source="svc" target="repo">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;" edge="1" parent="1" source="repo" target="db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="uml-page-4" name="04 Activity - Authentication">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="start" value="Start" style="ellipse;fillColor=#000000;fontColor=#ffffff;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="40" width="40" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="form" value="Enter username, email, password" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="110" width="200" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="valid" value="Input valid?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="205" width="120" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="err" value="Show validation error" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="220" width="160" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="exists" value="Account exists?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="320" width="120" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="create" value="Hash password and save account" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="430" width="220" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="done" value="Show success / open login" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="525" width="200" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="end" value="End" style="ellipse;fillColor=#000000;fontColor=#ffffff;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="610" width="40" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="start" target="form">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="form" target="valid">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="valid" target="err">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="valid" target="exists">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="exists" target="create">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="create" target="done">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="done" target="end">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="uml-page-5" name="05 State Machine - User Session">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="initial" value="" style="ellipse;fillColor=#000000;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="190" width="30" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="loggedout" value="Logged Out" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="170" width="130" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="checking" value="Credentials Being Checked" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="170" width="180" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="loggedin" value="Logged In" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="170" width="130" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="failed" value="Authentication Failed" style="rounded=1;arcSize=15;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="320" width="180" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="final" value="" style="ellipse;shape=doubleEllipse;html=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="190" width="35" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="initial" target="loggedout">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="loggedout" target="checking">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="checking" target="loggedin">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="checking" target="failed">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="failed" target="loggedout">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="loggedin" target="final">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="uml-page-6" name="06 Component">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="browser" value="Browser / Client" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="130" width="150" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ui" value="Login &amp; Sign Up Pages" style="shape=component;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="100" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth" value="Authentication Logic" style="shape=component;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="100" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="repo" value="Data Access Layer" style="shape=component;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="260" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="sql" value="SQL Server Database" style="shape=cylinder;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="260" width="160" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="note" value="Use parameterized queries / ORM to reduce SQL injection risk." style="shape=note;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="390" width="390" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="browser" target="ui">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ui" target="auth">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="auth" target="repo">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="repo" target="sql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="uml-page-7" name="07 Deployment">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="client" value="Client Device\nBrowser" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="140" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="server" value="Application Host\nWeb App / Auth Logic" style="shape=hexagon;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="230" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="dbserver" value="Database Server" style="shape=hexagon;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="120" width="210" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="db" value="SQL Server\nUsers database" style="shape=cylinder;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="310" width="150" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="note" value="Deploy over HTTPS. Restrict database access to the application host and keep secrets out of source control." style="shape=note;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="390" width="470" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;" edge="1" parent="1" source="client" target="server">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;" edge="1" parent="1" source="server" target="dbserver">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;" edge="1" parent="1" source="dbserver" target="db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
